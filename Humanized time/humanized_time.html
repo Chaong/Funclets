@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Chaong">
+    <title>Humanize time</title>
+    <style>
+        table {
+            margin: 0 auto;
+            margin-top: 200px;
+            border-radius: 0.25rem;
+            border: 1px solid;
+        }
+        td, th, caption {
+            padding: 20px;
+            text-align: center;
+        }
+        #result {
+            color: green;
+        }
+    </style>
+    <script>
+        // 月日时分前面填充 0
+        function fillZero(number, length) {
+            if((number + "").length >= length) {
+                return number;
+            }
+            return fillZero("0" + number, length);
+        }
+
+        // 将时间戳转换成：年-月-日 时:分
+        function toTime(timeStamp) {
+            var gmt = new Date(timeStamp * 1000);
+            var Y = gmt.getFullYear() + "-";
+            var m = fillZero(gmt.getMonth() + 1, 2) + "-";
+            var d = fillZero(gmt.getDate(), 2) + " ";
+            var H = fillZero(gmt.getHours(), 2) + ":";
+            var M = fillZero(gmt.getMinutes(), 2);
+            return Y + m + d + H + M;
+        }
+
+        // 计算今天的前后日期，返回：年-月-日
+        function timeDelta(number) {
+            var gmt = new Date();
+            gmt.setDate(gmt.getDate() + number);   // 获取 number 天后的日期
+            var Y = gmt.getFullYear() + "-";
+            var m = fillZero(gmt.getMonth() + 1, 2) + "-";
+            var d = fillZero(gmt.getDate(), 2);
+            return Y + m + d;
+        }
+        
+        // 主函数
+        function mainProgram() {
+            // 获取当前和输入的时间戳
+            var nowTs = Math.round(new Date().getTime() / 1000);
+            var inputTs = Number(prompt("Input timestamp (s)", "1607305503"));
+            var tsDiff = nowTs - inputTs;   // 得到时间戳的差
+
+            // 将时间戳转换成字符串
+            var nowTime = toTime(nowTs);
+            var inputTime = toTime(inputTs);
+
+            // 获取今天、昨天、前天
+            var today = timeDelta(0);
+            var yesterday = timeDelta(-1);
+            var beforeday = timeDelta(-2);
+
+            // 截取时间字符串获取对应数据
+            var hm = inputTime.slice(11, 16);
+            var mdhm = inputTime.slice(5, 16);
+            var inputYmd = inputTime.slice(0, 10);
+            var nowYear = nowTime.slice(0, 4);
+            var inputYear = inputTime.slice(0, 4);
+
+            var result;
+            // 条件判断
+            if (tsDiff <= 60) {
+                result = "刚刚";
+
+            } else if (inputYmd == today) {
+                result = hm;
+
+            } else if (inputYmd == yesterday) {
+                result = "昨天 " + hm;
+
+            } else if (inputYmd == beforeday) {
+                result = "前天 " + hm;
+
+            } else if (inputYear == nowYear) {
+                result = mdhm;
+
+            } else {
+                result = inputTime;
+                
+            }
+
+            // 将结果打印到页面
+            if (inputTs != null && inputTs != "") {
+                document.getElementById("now").innerHTML = nowTime;
+                document.getElementById("input-time").innerHTML = inputTime;
+                document.getElementById("result").innerHTML = result;
+            }
+        }
+
+        // 加载页面就执行该函数
+        window.onload = mainProgram;
+    </script>
+</head>
+<body>
+    <table>
+        <caption>
+            <h2>Humanize time</h2>
+        </caption>
+        <tr>
+            <th>Now</th>
+            <th>Input Time</th>
+            <th>Result</th>
+        </tr>
+        <tr>
+            <td id=now></td>
+            <td id=input-time></td>
+            <td id=result></td>
+        </tr>
+    </table>
+</body>
+</html>
