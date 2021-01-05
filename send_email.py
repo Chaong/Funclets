@@ -8,7 +8,7 @@ EMAIL_TITLE = "蒲公英的验证码"   # 邮件标题
 SENDER_NAME = "蒲公英"   # 发送者姓名
 SENDER_EMAIL = ""   # 发送者邮箱
 
-SMTP = "smtp.exmail.qq.com"   # 发送邮件服务器
+SMTP = ""   # 发送邮件服务器
 PASSWORD = ""   # 授权码
 
 
@@ -22,12 +22,12 @@ def send_email(receiver, ecode):
     # 邮件内容
     user = receiver.split("@")[0]   # 获得邮箱昵称
     title = "蒲公英"
-    greet_1 = f"嘿，亲爱的 {user}"
-    greet_2 = "下面的神秘代码是你在蒲公英网所获取的验证码："
+    greet_1 = f"嘿，亲爱的 {user} ~"
+    greet_2 = "下面的神秘代码是你在蒲公英网获取的验证码："
     prompt_1 = "小提示：如果你并没有在蒲公英网获取过该验证码，"
-    prompt_2 = "也许是其他用户在注册账号或者为账号找回密码时，"
-    prompt_3 = "不小心使用你的邮箱账号而使你收到了这一封邮件。"
-    prompt_4 = "那么你可以放心忽略此邮件，当然也可以"
+    prompt_2 = "那么可能是其他用户在注册账号或者为账号找回密码时，"
+    prompt_3 = "不小心使用了你的邮箱账号，而使你收到了这一封邮件。"
+    prompt_4 = "你可以选择忽略此邮件，当然也可以"
     contact_email = "gy@puonin.com"
     contact_text = "联系我们。"
     domain = "puonin.com"
@@ -48,8 +48,8 @@ def send_email(receiver, ecode):
               f"<p>{prompt_1}</p>" \
               f"<p>{prompt_2}</p>" \
               f"<p>{prompt_3}</p>" \
-              f"<p>{prompt_4}<a href='mailto:{contact_email}' title='联系蒲公英' style='color: #000000; text-decoration: none;'>{contact_text}</a></p>" \
-              "<p style='margin: 0; text-align: right;'>" \
+              f"<p>{prompt_4}<a href='mailto:{contact_email}' title='联系蒲公英' style='color: #000000; text-decoration: none; font-weight: bold;'>{contact_text}</a></p>" \
+              "<p style='margin-top: 30px; margin-bottom: 0px; text-align: right;'>" \
               f"<a href='http://puonin.com/' title='进入蒲公英' style='color: #000000; text-decoration: none;'>{domain}</a>" \
               "</p>" \
               "</td>" \
@@ -71,4 +71,4 @@ def send_email(receiver, ecode):
 
 if __name__ == "__main__":
     
-    send_email("", "pUoNin")   # 收件人邮箱、验证码
+    send_email("", "")   # 收件人邮箱、验证码
